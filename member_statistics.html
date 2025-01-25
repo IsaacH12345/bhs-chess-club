@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Member Statistics</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #333;
+            color: white;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .stats-container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #444;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            flex: 1;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .search-bar {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .search-bar input {
+            width: 60%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+        }
+
+        .search-bar button {
+            padding: 10px 15px;
+            margin-left: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #159AD2;
+            color: white;
+            cursor: pointer;
+        }
+
+        .search-bar button:hover {
+            background-color: #00b3cc;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 0;
+        }
+
+        th, td {
+            border: 1px solid #555;
+            padding: 8px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #555;
+        }
+
+        td {
+            background-color: #666;
+        }
+
+        .pagination {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .pagination button {
+            padding: 10px;
+            margin: 0 5px;
+            border: none;
+            border-radius: 5px;
+            background-color: #159AD2;
+            color: white;
+            cursor: pointer;
+        }
+
+        .pagination button:hover {
+            background-color: #00b3cc;
+        }
+
+        .pagination button.disabled {
+            background-color: #555;
+            cursor: not-allowed;
+        }
+
+        .no-results {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 18px;
+            color: #ff6666;
+        }
+
+        .tracker-button-container {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #444;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            width: fit-content;
+        }
+
+        .tracker-button {
+            display: inline-block;
+            padding: 10px 20px;
+            text-align: center;
+            background-color: #159AD2;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .tracker-button:hover {
+            background-color: #00b3cc;
+        }
+    </style>
+</head>
+<body>
+    <div class="stats-container">
+        <h1>Member Statistics</h1>
+
+        <div class="search-bar">
+            <input type="text" id="search-input" placeholder="Search for a member by name...">
+            <button onclick="filterStatistics()">Search</button>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Member Name</th>
+                    <th>Matches Played</th>
+                    <th>Wins</th>
+                    <th>Losses</th>
+                    <th>Draws</th>
+                    <th>Win Percentage</th>
+                </tr>
+            </thead>
+            <tbody id="stats-table-body">
+                <!-- Member statistics will be dynamically populated here -->
+            </tbody>
+        </table>
+
+        <div class="pagination" id="pagination-container"></div>
+
+        <div id="no-results" class="no-results hidden"></div>
+    </div>
+
+    <div class="tracker-button-container">
+        <a href="index.html" class="tracker-button">Go to Tracker</a>
+    </div>
+
+    <script>
+        const members = JSON.parse(localStorage.getItem('members')) || [];
+        const meetings = JSON.parse(localStorage.getItem('meetings')) || [];
+        const itemsPerPage = 14; // Now set to 13 names per page
+        let currentPage = 1;
+        let filteredStats = [];
+
+        function calculateStatistics() {
+            const stats = members.map(member => {
+                let matchesPlayed = 0;
+                let wins = 0;
+                let losses = 0;
+                let draws = 0;
+
+                meetings.forEach(meeting => {
+                    meeting.matches.forEach(match => {
+                        if (match.whitePlayer === member.name || match.blackPlayer === member.name) {
+                            matchesPlayed++;
+                            if (match.winner === member.name) {
+                                wins++;
+                            } else if (match.winner === "Draw") {
+                                draws++;
+                            } else if (
+                                match.winner !== member.name &&
+                                match.winner !== "Draw" &&
+                                match.winner !== "N/A" &&
+                                match.winner !== "Ongoing"
+                            ) {
+                                losses++;
+                            }
+                        }
+                    });
+                });
+
+                const winPercentage = matchesPlayed > 0 ? ((wins / matchesPlayed) * 100).toFixed(2) : "0.00";
+
+                return {
+                    name: member.name,
+                    matchesPlayed,
+                    wins,
+                    losses,
+                    draws,
+                    winPercentage: `${winPercentage}%`,
+                };
+            });
+
+            return stats;
+        }
+
+        function renderStatisticsPage() {
+            const statsTableBody = document.getElementById('stats-table-body');
+            const paginationContainer = document.getElementById('pagination-container');
+            const start = (currentPage - 1) * itemsPerPage;
+            const end = currentPage * itemsPerPage;
+
+            const pageStats = filteredStats.slice(start, end);
+
+            statsTableBody.innerHTML = pageStats
+                .map(
+                    stat => `
+                    <tr>
+                        <td>${stat.name}</td>
+                        <td>${stat.matchesPlayed}</td>
+                        <td>${stat.wins}</td>
+                        <td>${stat.losses}</td>
+                        <td>${stat.draws}</td>
+                        <td>${stat.winPercentage}</td>
+                    </tr>
+                `
+                )
+                .join('');
+
+            paginationContainer.innerHTML = `
+                <button ${currentPage === 1 ? 'class="disabled"' : ''} onclick="changePage(-1)">Previous</button>
+                Page ${currentPage} of ${Math.ceil(filteredStats.length / itemsPerPage)}
+                <button ${currentPage === Math.ceil(filteredStats.length / itemsPerPage) ? 'class="disabled"' : ''} onclick="changePage(1)">Next</button>
+            `;
+        }
+
+        function changePage(direction) {
+            currentPage += direction;
+            renderStatisticsPage();
+        }
+
+        function filterStatistics() {
+            const searchInput = document.getElementById('search-input').value.trim().toLowerCase();
+            const allStats = calculateStatistics();
+
+            if (searchInput === '') {
+                filteredStats = allStats;
+            } else {
+                filteredStats = allStats.filter(stat => stat.name.toLowerCase().includes(searchInput));
+            }
+
+            currentPage = 1;
+            renderStatisticsPage();
+        }
+
+        // Initial setup
+        filteredStats = calculateStatistics();
+        renderStatisticsPage();
+    </script>
+</body>
+</html>
