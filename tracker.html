@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BHS Chess Club Tracker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #333;
+            color: white;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .tracker-container {
+            max-width: 1000px; /* Increased the width */
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #444;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            flex: 1;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .meeting-card {
+            background-color: #555;
+            color: white;
+            border-radius: 8px;
+            margin: 20px 0;
+            padding: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+        }
+
+        .meeting-card:hover {
+            background-color: #666;
+        }
+
+        .meeting-title {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .content {
+            margin-top: 10px;
+            display: none;
+            overflow: hidden;
+            background-color: #666;
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th, td {
+            border: 1px solid #555;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #555;
+        }
+
+        td {
+            background-color: #666;
+        }
+
+        .statistics-button-container {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #444;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            width: fit-content;
+        }
+
+        .statistics-button {
+            display: inline-block;
+            padding: 10px 20px;
+            text-align: center;
+            background-color: #159AD2;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .statistics-button:hover {
+            background-color: #00b3cc;
+        }
+    </style>
+</head>
+<body>
+    <div class="tracker-container">
+        <h1>BHS Chess Club Tournament Tracker</h1>
+        <div id="meeting-list">
+            <!-- Meetings will be dynamically populated here -->
+        </div>
+    </div>
+
+    <div class="statistics-button-container">
+        <a href="member_statistics.html" class="statistics-button">Go to Member Statistics</a>
+    </div>
+
+    <script>
+        const meetings = JSON.parse(localStorage.getItem('meetings')) || [];
+
+        const meetingList = document.getElementById('meeting-list');
+
+        function formatDate(dateString) {
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            const date = new Date(dateString);
+            return date.toLocaleDateString(undefined, options);
+        }
+
+        function renderMeetings() {
+            meetingList.innerHTML = '';
+            meetings.forEach(meeting => {
+                const card = document.createElement('div');
+                card.className = 'meeting-card';
+
+                const title = document.createElement('div');
+                title.className = 'meeting-title';
+                title.textContent = `Meeting: ${formatDate(meeting.date)}`;
+
+                const content = document.createElement('div');
+                content.className = 'content';
+
+                if (meeting.matches.length > 0) {
+                    const table = document.createElement('table');
+                    table.innerHTML = `
+                        <thead>
+                            <tr>
+                                <th>White Player</th>
+                                <th>Black Player</th>
+                                <th>Winner</th>
+                                <th>Notes</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${meeting.matches.map(match => `
+                                <tr>
+                                    <td>${match.whitePlayer}</td>
+                                    <td>${match.blackPlayer}</td>
+                                    <td>${match.winner}</td>
+                                    <td>${match.notes}</td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    `;
+                    content.appendChild(table);
+                } else {
+                    content.innerHTML = '<p>No matches logged yet.</p>';
+                }
+
+                card.appendChild(title);
+                card.appendChild(content);
+
+                card.addEventListener('click', function() {
+                    content.style.display = content.style.display === 'block' ? 'none' : 'block';
+                });
+
+                meetingList.appendChild(card);
+            });
+        }
+
+        renderMeetings();
+    </script>
+</body>
+</html>

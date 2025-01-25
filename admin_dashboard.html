@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #333;
+            color: white;
+            margin: 0;
+            padding: 0;
+        }
+
+        .dashboard-container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #444;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .form-section {
+            margin: 20px 0;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input, select, button, textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: none;
+            border-radius: 5px;
+        }
+
+        button {
+            background-color: #159AD2;
+            color: white;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #00b3cc;
+        }
+
+        .menu {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .menu button {
+            width: auto;
+            margin: 5px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th, td {
+            border: 1px solid #555;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #555;
+        }
+
+        td {
+            background-color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <h1>Admin Dashboard</h1>
+
+        <div class="menu">
+            <button onclick="showSection('add-section')">Add Data</button>
+            <button onclick="showSection('view-section')">View & Manage Data</button>
+        </div>
+
+        <div id="add-section">
+            <div class="form-section">
+                <h2>Add New Member</h2>
+                <form id="add-member-form">
+                    <label for="member-name">Member Name:</label>
+                    <input type="text" id="member-name" placeholder="Enter member name" required>
+
+                    <label for="member-grade">Grade Level:</label>
+                    <input type="text" id="member-grade" placeholder="Enter grade level" required>
+
+                    <button type="submit">Add Member</button>
+                </form>
+            </div>
+
+            <div class="form-section">
+                <h2>Add New Meeting</h2>
+                <form id="add-meeting-form">
+                    <label for="meeting-date">Meeting Date:</label>
+                    <input type="date" id="meeting-date" required>
+
+                    <button type="submit">Add Meeting</button>
+                </form>
+            </div>
+
+            <div class="form-section">
+                <h2>Log Match</h2>
+                <form id="log-match-form">
+                    <label for="meeting-select">Select Meeting:</label>
+                    <select id="meeting-select">
+                        <option value="">-- Select Meeting --</option>
+                    </select>
+
+                    <label for="white-player">White Player:</label>
+                    <select id="white-player">
+                        <option value="">-- Select Player --</option>
+                    </select>
+
+                    <label for="black-player">Black Player:</label>
+                    <select id="black-player">
+                        <option value="">-- Select Player --</option>
+                    </select>
+
+                    <label for="winner">Winner:</label>
+                    <select id="winner">
+                        <option value="">-- Select Winner --</option>
+                        <option value="Draw">Draw</option>
+                        <option value="N/A">N/A</option>
+                        <option value="Ongoing">Ongoing</option>
+                    </select>
+
+                    <label for="notes">Notes:</label>
+                    <textarea id="notes" placeholder="Add notes about the match..."></textarea>
+
+                    <button type="submit">Log Match</button>
+                </form>
+            </div>
+        </div>
+
+        <div id="view-section" class="hidden">
+            <h2>Manage Members</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Grade</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="member-list"></tbody>
+            </table>
+
+            <h2>Manage Meetings</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Meeting Date</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="meeting-list"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        const members = JSON.parse(localStorage.getItem('members')) || [];
+        const meetings = JSON.parse(localStorage.getItem('meetings')) || [];
+
+        const memberForm = document.getElementById('add-member-form');
+        const meetingForm = document.getElementById('add-meeting-form');
+        const matchForm = document.getElementById('log-match-form');
+        const memberList = document.getElementById('member-list');
+        const meetingList = document.getElementById('meeting-list');
+        const meetingSelect = document.getElementById('meeting-select');
+        const whitePlayerSelect = document.getElementById('white-player');
+        const blackPlayerSelect = document.getElementById('black-player');
+        const winnerSelect = document.getElementById('winner');
+
+        function formatDateToLocal(dateString) {
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            return new Date(dateString).toLocaleDateString(undefined, options);
+        }
+
+        function updateWinnerDropdown() {
+            const whitePlayer = whitePlayerSelect.value;
+            const blackPlayer = blackPlayerSelect.value;
+
+            winnerSelect.innerHTML = `
+                <option value="">-- Select Winner --</option>
+                ${whitePlayer ? `<option value="${whitePlayer}">${whitePlayer}</option>` : ''}
+                ${blackPlayer ? `<option value="${blackPlayer}">${blackPlayer}</option>` : ''}
+                <option value="Draw">Draw</option>
+                <option value="N/A">N/A</option>
+                <option value="Ongoing">Ongoing</option>
+            `;
+        }
+
+        whitePlayerSelect.addEventListener('change', updateWinnerDropdown);
+        blackPlayerSelect.addEventListener('change', updateWinnerDropdown);
+
+        memberForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            const memberName = document.getElementById('member-name').value;
+            const memberGrade = document.getElementById('member-grade').value;
+
+            members.push({ name: memberName, grade: memberGrade });
+            localStorage.setItem('members', JSON.stringify(members));
+            renderMembers();
+            updateMemberDropdowns();
+            alert(`Member ${memberName} added successfully!`);
+            memberForm.reset();
+        });
+
+        meetingForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            const meetingDate = document.getElementById('meeting-date').value;
+            const localFormattedDate = formatDateToLocal(meetingDate);
+
+            meetings.push({ date: localFormattedDate, matches: [] });
+            localStorage.setItem('meetings', JSON.stringify(meetings));
+            renderMeetings();
+            updateMeetingDropdown();
+            alert(`Meeting on ${localFormattedDate} added successfully!`);
+            meetingForm.reset();
+        });
+
+        matchForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            const meetingDate = meetingSelect.value;
+            const whitePlayer = whitePlayerSelect.value;
+            const blackPlayer = blackPlayerSelect.value;
+            const winner = winnerSelect.value;
+            const notes = document.getElementById('notes').value;
+
+            if (!meetingDate || !whitePlayer || !blackPlayer || !winner) {
+                alert('Please fill in all fields before logging the match.');
+                return;
+            }
+
+            const meeting = meetings.find(m => m.date === meetingDate);
+            if (meeting) {
+                meeting.matches.push({ whitePlayer, blackPlayer, winner, notes });
+                localStorage.setItem('meetings', JSON.stringify(meetings));
+                alert('Match logged successfully!');
+                matchForm.reset();
+            } else {
+                alert('Meeting not found. Please try again.');
+            }
+        });
+
+        function renderMembers() {
+            memberList.innerHTML = '';
+            members.forEach((member, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${member.name}</td>
+                    <td>${member.grade}</td>
+                    <td><button onclick="confirmRemoveMember(${index})">Remove</button></td>
+                `;
+                memberList.appendChild(row);
+            });
+        }
+
+        function renderMeetings() {
+            meetingList.innerHTML = '';
+            meetings.forEach((meeting, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${meeting.date}</td>
+                    <td><button onclick="confirmRemoveMeeting(${index})">Remove</button></td>
+                `;
+                meetingList.appendChild(row);
+            });
+        }
+
+        function updateMemberDropdowns() {
+            whitePlayerSelect.innerHTML = '<option value="">-- Select Player --</option>';
+            blackPlayerSelect.innerHTML = '<option value="">-- Select Player --</option>';
+            members.forEach(member => {
+                const option = `<option value="${member.name}">${member.name}</option>`;
+                whitePlayerSelect.innerHTML += option;
+                blackPlayerSelect.innerHTML += option;
+            });
+        }
+
+        function updateMeetingDropdown() {
+            meetingSelect.innerHTML = '<option value="">-- Select Meeting --</option>';
+            meetings.forEach(meeting => {
+                const option = `<option value="${meeting.date}">${meeting.date}</option>`;
+                meetingSelect.innerHTML += option;
+            });
+        }
+
+        function confirmRemoveMember(index) {
+            if (confirm('Are you sure you want to remove this member?')) {
+                members.splice(index, 1);
+                localStorage.setItem('members', JSON.stringify(members));
+                renderMembers();
+                updateMemberDropdowns();
+                alert('Member removed successfully!');
+            }
+        }
+
+        function confirmRemoveMeeting(index) {
+            if (confirm('Are you sure you want to remove this meeting?')) {
+                meetings.splice(index, 1);
+                localStorage.setItem('meetings', JSON.stringify(meetings));
+                renderMeetings();
+                updateMeetingDropdown();
+                alert('Meeting removed successfully!');
+            }
+        }
+
+        function showSection(sectionId) {
+            document.getElementById('add-section').classList.add('hidden');
+            document.getElementById('view-section').classList.add('hidden');
+            document.getElementById(sectionId).classList.remove('hidden');
+        }
+
+        renderMembers();
+        renderMeetings();
+        updateMemberDropdowns();
+        updateMeetingDropdown();
+    </script>
+</body>
+</html>
