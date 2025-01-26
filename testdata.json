@@ -1,12 +1,23 @@
 {
     "members": [
-        { "name": "Jonathan Ancrum", "grade": "12" },
-        { "name": "Evie Anderson", "grade": "12" },
-        { "name": "Peyton Ayala", "grade": "11" },
-        { "name": "Aidan Aylward", "grade": "11" }
+        {"name": "Jonathan Ancrum", 
+		"grade": "12" },
+        {
+			"name": "Evie Anderson", 
+			"grade": "12" 
+		},
+        {
+			"name": "Peyton Ayala", 
+			"grade": "11" 
+		},
+        {
+			"name": "Aidan Aylward", 
+			"grade": "11" 
+		}
     ],
     "meetings": [
-        { "date": "December 5, 2024", "matches": [] },
+        { "date": "December 5, 2024", 
+		"matches": [] },
         { 
             "date": "December 11, 2024", 
             "matches": [
