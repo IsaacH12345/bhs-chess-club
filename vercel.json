@@ -1,5 +1,0 @@
-{
-    "routes": [
-        { "src": "/data.json", "dest": "/data.json" }
-    ]
-}
