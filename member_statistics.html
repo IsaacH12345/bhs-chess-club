@@ -171,107 +171,121 @@
         <a href="index.html" class="tracker-button">Go to Tracker</a>
     </div>
 
-    <script>
-        const members = JSON.parse(localStorage.getItem('members')) || [];
-        const meetings = JSON.parse(localStorage.getItem('meetings')) || [];
-        const itemsPerPage = 14; // Now set to 13 names per page
-        let currentPage = 1;
-        let filteredStats = [];
+	<script>
+		const dataJsonUrl = 'https://www.bhschess.com/data.json';
+		let members = [];
+		let meetings = [];
+		const itemsPerPage = 13; // Names per page
+		let currentPage = 1;
+		let filteredStats = [];
 
-        function calculateStatistics() {
-            const stats = members.map(member => {
-                let matchesPlayed = 0;
-                let wins = 0;
-                let losses = 0;
-                let draws = 0;
+		// Fetch data from JSON
+		async function fetchData() {
+			try {
+				const response = await fetch(dataJsonUrl);
+				const data = await response.json();
+				members = Array.isArray(data.members) ? data.members : [];
+				meetings = Array.isArray(data.meetings) ? data.meetings : [];
+				filteredStats = calculateStatistics();
+				renderStatisticsPage();
+			} catch (error) {
+				console.error('Error fetching data:', error);
+			}
+		}
 
-                meetings.forEach(meeting => {
-                    meeting.matches.forEach(match => {
-                        if (match.whitePlayer === member.name || match.blackPlayer === member.name) {
-                            matchesPlayed++;
-                            if (match.winner === member.name) {
-                                wins++;
-                            } else if (match.winner === "Draw") {
-                                draws++;
-                            } else if (
-                                match.winner !== member.name &&
-                                match.winner !== "Draw" &&
-                                match.winner !== "N/A" &&
-                                match.winner !== "Ongoing"
-                            ) {
-                                losses++;
-                            }
-                        }
-                    });
-                });
+		function calculateStatistics() {
+			const stats = members.map(member => {
+				let matchesPlayed = 0;
+				let wins = 0;
+				let losses = 0;
+				let draws = 0;
 
-                const winPercentage = matchesPlayed > 0 ? ((wins / matchesPlayed) * 100).toFixed(2) : "0.00";
+				meetings.forEach(meeting => {
+					meeting.matches.forEach(match => {
+						if (match.whitePlayer === member.name || match.blackPlayer === member.name) {
+							matchesPlayed++;
+							if (match.winner === member.name) {
+								wins++;
+							} else if (match.winner === "Draw") {
+								draws++;
+							} else if (
+								match.winner !== member.name &&
+								match.winner !== "Draw" &&
+								match.winner !== "N/A" &&
+								match.winner !== "Ongoing"
+							) {
+								losses++;
+							}
+						}
+					});
+				});
 
-                return {
-                    name: member.name,
-                    matchesPlayed,
-                    wins,
-                    losses,
-                    draws,
-                    winPercentage: `${winPercentage}%`,
-                };
-            });
+				const winPercentage = matchesPlayed > 0 ? ((wins / matchesPlayed) * 100).toFixed(2) : "0.00";
 
-            return stats;
-        }
+				return {
+					name: member.name,
+					matchesPlayed,
+					wins,
+					losses,
+					draws,
+					winPercentage: `${winPercentage}%`,
+				};
+			});
 
-        function renderStatisticsPage() {
-            const statsTableBody = document.getElementById('stats-table-body');
-            const paginationContainer = document.getElementById('pagination-container');
-            const start = (currentPage - 1) * itemsPerPage;
-            const end = currentPage * itemsPerPage;
+			return stats;
+		}
 
-            const pageStats = filteredStats.slice(start, end);
+		function renderStatisticsPage() {
+			const statsTableBody = document.getElementById('stats-table-body');
+			const paginationContainer = document.getElementById('pagination-container');
+			const start = (currentPage - 1) * itemsPerPage;
+			const end = currentPage * itemsPerPage;
 
-            statsTableBody.innerHTML = pageStats
-                .map(
-                    stat => `
-                    <tr>
-                        <td>${stat.name}</td>
-                        <td>${stat.matchesPlayed}</td>
-                        <td>${stat.wins}</td>
-                        <td>${stat.losses}</td>
-                        <td>${stat.draws}</td>
-                        <td>${stat.winPercentage}</td>
-                    </tr>
-                `
-                )
-                .join('');
+			const pageStats = filteredStats.slice(start, end);
 
-            paginationContainer.innerHTML = `
-                <button ${currentPage === 1 ? 'class="disabled"' : ''} onclick="changePage(-1)">Previous</button>
-                Page ${currentPage} of ${Math.ceil(filteredStats.length / itemsPerPage)}
-                <button ${currentPage === Math.ceil(filteredStats.length / itemsPerPage) ? 'class="disabled"' : ''} onclick="changePage(1)">Next</button>
-            `;
-        }
+			statsTableBody.innerHTML = pageStats
+				.map(
+					stat => `
+					<tr>
+						<td>${stat.name}</td>
+						<td>${stat.matchesPlayed}</td>
+						<td>${stat.wins}</td>
+						<td>${stat.losses}</td>
+						<td>${stat.draws}</td>
+						<td>${stat.winPercentage}</td>
+					</tr>
+				`
+				)
+				.join('');
 
-        function changePage(direction) {
-            currentPage += direction;
-            renderStatisticsPage();
-        }
+			paginationContainer.innerHTML = `
+				<button ${currentPage === 1 ? 'class="disabled"' : ''} onclick="changePage(-1)">Previous</button>
+				Page ${currentPage} of ${Math.ceil(filteredStats.length / itemsPerPage)}
+				<button ${currentPage === Math.ceil(filteredStats.length / itemsPerPage) ? 'class="disabled"' : ''} onclick="changePage(1)">Next</button>
+			`;
+		}
 
-        function filterStatistics() {
-            const searchInput = document.getElementById('search-input').value.trim().toLowerCase();
-            const allStats = calculateStatistics();
+		function changePage(direction) {
+			currentPage += direction;
+			renderStatisticsPage();
+		}
 
-            if (searchInput === '') {
-                filteredStats = allStats;
-            } else {
-                filteredStats = allStats.filter(stat => stat.name.toLowerCase().includes(searchInput));
-            }
+		function filterStatistics() {
+			const searchInput = document.getElementById('search-input').value.trim().toLowerCase();
+			const allStats = calculateStatistics();
 
-            currentPage = 1;
-            renderStatisticsPage();
-        }
+			if (searchInput === '') {
+				filteredStats = allStats;
+			} else {
+				filteredStats = allStats.filter(stat => stat.name.toLowerCase().includes(searchInput));
+			}
 
-        // Initial setup
-        filteredStats = calculateStatistics();
-        renderStatisticsPage();
-    </script>
+			currentPage = 1;
+			renderStatisticsPage();
+		}
+
+		// Initial setup
+		fetchData();
+	</script>
 </body>
 </html>

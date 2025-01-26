@@ -120,69 +120,86 @@
         <a href="member_statistics.html" class="statistics-button">Go to Member Statistics</a>
     </div>
 
-    <script>
-        const meetings = JSON.parse(localStorage.getItem('meetings')) || [];
+	<script>
+		const dataJsonUrl = 'https://www.bhschess.com/data.json'; 
+		let meetings = [];
 
-        const meetingList = document.getElementById('meeting-list');
+		const meetingList = document.getElementById('meeting-list');
 
-        function formatDate(dateString) {
-            const options = { year: 'numeric', month: 'long', day: 'numeric' };
-            const date = new Date(dateString);
-            return date.toLocaleDateString(undefined, options);
-        }
+		// Fetch data from JSON
+		async function fetchData() {
+			try {
+				const response = await fetch(dataJsonUrl);
+				const data = await response.json();
+				meetings = Array.isArray(data.meetings) ? data.meetings : [];
+				renderMeetings();
+			} catch (error) {
+				console.error('Error fetching data:', error);
+			}
+		}
 
-        function renderMeetings() {
-            meetingList.innerHTML = '';
-            meetings.forEach(meeting => {
-                const card = document.createElement('div');
-                card.className = 'meeting-card';
+		// Format date
+		function formatDate(dateString) {
+			const options = { year: 'numeric', month: 'long', day: 'numeric' };
+			const date = new Date(dateString);
+			return date.toLocaleDateString(undefined, options);
+		}
 
-                const title = document.createElement('div');
-                title.className = 'meeting-title';
-                title.textContent = `Meeting: ${formatDate(meeting.date)}`;
+		// Render meetings
+		function renderMeetings() {
+			meetingList.innerHTML = '';
+			meetings.forEach(meeting => {
+				const card = document.createElement('div');
+				card.className = 'meeting-card';
 
-                const content = document.createElement('div');
-                content.className = 'content';
+				const title = document.createElement('div');
+				title.className = 'meeting-title';
+				title.textContent = `Meeting: ${formatDate(meeting.date)}`;
 
-                if (meeting.matches.length > 0) {
-                    const table = document.createElement('table');
-                    table.innerHTML = `
-                        <thead>
-                            <tr>
-                                <th>White Player</th>
-                                <th>Black Player</th>
-                                <th>Winner</th>
-                                <th>Notes</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            ${meeting.matches.map(match => `
-                                <tr>
-                                    <td>${match.whitePlayer}</td>
-                                    <td>${match.blackPlayer}</td>
-                                    <td>${match.winner}</td>
-                                    <td>${match.notes}</td>
-                                </tr>
-                            `).join('')}
-                        </tbody>
-                    `;
-                    content.appendChild(table);
-                } else {
-                    content.innerHTML = '<p>No matches logged yet.</p>';
-                }
+				const content = document.createElement('div');
+				content.className = 'content';
 
-                card.appendChild(title);
-                card.appendChild(content);
+				if (meeting.matches.length > 0) {
+					const table = document.createElement('table');
+					table.innerHTML = `
+						<thead>
+							<tr>
+								<th>White Player</th>
+								<th>Black Player</th>
+								<th>Winner</th>
+								<th>Notes</th>
+							</tr>
+						</thead>
+						<tbody>
+							${meeting.matches.map(match => `
+								<tr>
+									<td>${match.whitePlayer}</td>
+									<td>${match.blackPlayer}</td>
+									<td>${match.winner}</td>
+									<td>${match.notes}</td>
+								</tr>
+							`).join('')}
+						</tbody>
+					`;
+					content.appendChild(table);
+				} else {
+					content.innerHTML = '<p>No matches logged yet.</p>';
+				}
 
-                card.addEventListener('click', function() {
-                    content.style.display = content.style.display === 'block' ? 'none' : 'block';
-                });
+				card.appendChild(title);
+				card.appendChild(content);
 
-                meetingList.appendChild(card);
-            });
-        }
+				card.addEventListener('click', function() {
+					content.style.display = content.style.display === 'block' ? 'none' : 'block';
+				});
 
-        renderMeetings();
-    </script>
+				meetingList.appendChild(card);
+			});
+		}
+
+		// Fetch and render meetings on page load
+		fetchData();
+	</script>
+
 </body>
 </html>

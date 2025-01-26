@@ -45,27 +45,13 @@
         }
 
         button {
-            background-color: #159AD2;
+            background-color: #00d4ff;
             color: white;
             cursor: pointer;
         }
 
         button:hover {
             background-color: #00b3cc;
-        }
-
-        .menu {
-            margin-top: 20px;
-            text-align: center;
-        }
-
-        .menu button {
-            width: auto;
-            margin: 5px;
-        }
-
-        .hidden {
-            display: none;
         }
 
         table {
@@ -86,6 +72,24 @@
 
         td {
             background-color: #666;
+        }
+
+        .menu {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .menu button {
+            width: auto;
+            margin: 5px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .matches-section {
+            margin: 20px 0;
         }
     </style>
 </head>
@@ -182,165 +186,137 @@
         </div>
     </div>
 
-    <script>
-        const members = JSON.parse(localStorage.getItem('members')) || [];
-        const meetings = JSON.parse(localStorage.getItem('meetings')) || [];
+	<script>
+		const dataJsonUrl = 'https://www.bhschess.com/data.json'; 
+		let members = [];
+		let meetings = [];
 
-        const memberForm = document.getElementById('add-member-form');
-        const meetingForm = document.getElementById('add-meeting-form');
-        const matchForm = document.getElementById('log-match-form');
-        const memberList = document.getElementById('member-list');
-        const meetingList = document.getElementById('meeting-list');
-        const meetingSelect = document.getElementById('meeting-select');
-        const whitePlayerSelect = document.getElementById('white-player');
-        const blackPlayerSelect = document.getElementById('black-player');
-        const winnerSelect = document.getElementById('winner');
+		const memberForm = document.getElementById('add-member-form');
+		const meetingForm = document.getElementById('add-meeting-form');
+		const matchForm = document.getElementById('log-match-form');
+		const memberList = document.getElementById('member-list');
+		const meetingList = document.getElementById('meeting-list');
+		const meetingSelect = document.getElementById('meeting-select');
+		const whitePlayerSelect = document.getElementById('white-player');
+		const blackPlayerSelect = document.getElementById('black-player');
 
-        function formatDateToLocal(dateString) {
-            const options = { year: 'numeric', month: 'long', day: 'numeric' };
-            return new Date(dateString).toLocaleDateString(undefined, options);
-        }
+		// Fetch data from the JSON file
+		async function fetchData() {
+			try {
+				const response = await fetch(dataJsonUrl);
+				const data = await response.json();
 
-        function updateWinnerDropdown() {
-            const whitePlayer = whitePlayerSelect.value;
-            const blackPlayer = blackPlayerSelect.value;
+				// Validate and assign data
+				members = Array.isArray(data.members) ? data.members : [];
+				meetings = Array.isArray(data.meetings) ? data.meetings : [];
 
-            winnerSelect.innerHTML = `
-                <option value="">-- Select Winner --</option>
-                ${whitePlayer ? `<option value="${whitePlayer}">${whitePlayer}</option>` : ''}
-                ${blackPlayer ? `<option value="${blackPlayer}">${blackPlayer}</option>` : ''}
-                <option value="Draw">Draw</option>
-                <option value="N/A">N/A</option>
-                <option value="Ongoing">Ongoing</option>
-            `;
-        }
+				renderMembers();
+				renderMeetings();
+			} catch (error) {
+				console.error('Error fetching data:', error);
+			}
+		}
 
-        whitePlayerSelect.addEventListener('change', updateWinnerDropdown);
-        blackPlayerSelect.addEventListener('change', updateWinnerDropdown);
+		function renderMembers() {
+			memberList.innerHTML = '';
+			whitePlayerSelect.innerHTML = '<option value="">-- Select Player --</option>';
+			blackPlayerSelect.innerHTML = '<option value="">-- Select Player --</option>';
+			members.forEach((member, index) => {
+				const row = document.createElement('tr');
+				row.innerHTML = `
+					<td>${member.name}</td>
+					<td>${member.grade}</td>
+					<td><button onclick="confirmRemoveMember(${index})">Remove</button></td>
+				`;
+				memberList.appendChild(row);
+				whitePlayerSelect.innerHTML += `<option value="${member.name}">${member.name}</option>`;
+				blackPlayerSelect.innerHTML += `<option value="${member.name}">${member.name}</option>`;
+			});
+		}
 
-        memberForm.addEventListener('submit', function(event) {
-            event.preventDefault();
-            const memberName = document.getElementById('member-name').value;
-            const memberGrade = document.getElementById('member-grade').value;
+		function renderMeetings() {
+			meetingList.innerHTML = '';
+			meetingSelect.innerHTML = '<option value="">-- Select Meeting --</option>';
+			meetings.forEach((meeting, index) => {
+				const row = document.createElement('tr');
+				row.innerHTML = `
+					<td>${meeting.date}</td>
+					<td><button onclick="confirmRemoveMeeting(${index})">Remove</button></td>
+				`;
+				meetingList.appendChild(row);
+				meetingSelect.innerHTML += `<option value="${meeting.date}">${meeting.date}</option>`;
+			});
+		}
 
-            members.push({ name: memberName, grade: memberGrade });
-            localStorage.setItem('members', JSON.stringify(members));
-            renderMembers();
-            updateMemberDropdowns();
-            alert(`Member ${memberName} added successfully!`);
-            memberForm.reset();
-        });
+		memberForm.addEventListener('submit', function (event) {
+			event.preventDefault();
+			const name = document.getElementById('member-name').value;
+			const grade = document.getElementById('member-grade').value;
 
-        meetingForm.addEventListener('submit', function(event) {
-            event.preventDefault();
-            const meetingDate = document.getElementById('meeting-date').value;
-            const localFormattedDate = formatDateToLocal(meetingDate);
+			members.push({ name, grade });
+			renderMembers();
+			alert(`Member ${name} added successfully!`);
+			memberForm.reset();
+		});
 
-            meetings.push({ date: localFormattedDate, matches: [] });
-            localStorage.setItem('meetings', JSON.stringify(meetings));
-            renderMeetings();
-            updateMeetingDropdown();
-            alert(`Meeting on ${localFormattedDate} added successfully!`);
-            meetingForm.reset();
-        });
+		meetingForm.addEventListener('submit', function (event) {
+			event.preventDefault();
+			const date = document.getElementById('meeting-date').value;
 
-        matchForm.addEventListener('submit', function(event) {
-            event.preventDefault();
-            const meetingDate = meetingSelect.value;
-            const whitePlayer = whitePlayerSelect.value;
-            const blackPlayer = blackPlayerSelect.value;
-            const winner = winnerSelect.value;
-            const notes = document.getElementById('notes').value;
+			meetings.push({ date, matches: [] });
+			renderMeetings();
+			alert(`Meeting on ${date} added successfully!`);
+			meetingForm.reset();
+		});
 
-            if (!meetingDate || !whitePlayer || !blackPlayer || !winner) {
-                alert('Please fill in all fields before logging the match.');
-                return;
-            }
+		matchForm.addEventListener('submit', function (event) {
+			event.preventDefault();
+			const meetingDate = meetingSelect.value;
+			const whitePlayer = whitePlayerSelect.value;
+			const blackPlayer = blackPlayerSelect.value;
+			const winner = document.getElementById('winner').value;
+			const notes = document.getElementById('notes').value;
 
-            const meeting = meetings.find(m => m.date === meetingDate);
-            if (meeting) {
-                meeting.matches.push({ whitePlayer, blackPlayer, winner, notes });
-                localStorage.setItem('meetings', JSON.stringify(meetings));
-                alert('Match logged successfully!');
-                matchForm.reset();
-            } else {
-                alert('Meeting not found. Please try again.');
-            }
-        });
+			if (!meetingDate || !whitePlayer || !blackPlayer || !winner) {
+				alert('Please fill in all fields.');
+				return;
+			}
 
-        function renderMembers() {
-            memberList.innerHTML = '';
-            members.forEach((member, index) => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${member.name}</td>
-                    <td>${member.grade}</td>
-                    <td><button onclick="confirmRemoveMember(${index})">Remove</button></td>
-                `;
-                memberList.appendChild(row);
-            });
-        }
+			const meeting = meetings.find(m => m.date === meetingDate);
+			if (meeting) {
+				meeting.matches.push({ whitePlayer, blackPlayer, winner, notes });
+				renderMeetings();
+				alert('Match logged successfully!');
+				matchForm.reset();
+			} else {
+				console.error('Meeting not found.');
+			}
+		});
 
-        function renderMeetings() {
-            meetingList.innerHTML = '';
-            meetings.forEach((meeting, index) => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${meeting.date}</td>
-                    <td><button onclick="confirmRemoveMeeting(${index})">Remove</button></td>
-                `;
-                meetingList.appendChild(row);
-            });
-        }
+		function confirmRemoveMember(index) {
+			if (confirm('Are you sure you want to remove this member?')) {
+				members.splice(index, 1);
+				renderMembers();
+				alert('Member removed successfully!');
+			}
+		}
 
-        function updateMemberDropdowns() {
-            whitePlayerSelect.innerHTML = '<option value="">-- Select Player --</option>';
-            blackPlayerSelect.innerHTML = '<option value="">-- Select Player --</option>';
-            members.forEach(member => {
-                const option = `<option value="${member.name}">${member.name}</option>`;
-                whitePlayerSelect.innerHTML += option;
-                blackPlayerSelect.innerHTML += option;
-            });
-        }
+		function confirmRemoveMeeting(index) {
+			if (confirm('Are you sure you want to remove this meeting?')) {
+				meetings.splice(index, 1);
+				renderMeetings();
+				alert('Meeting removed successfully!');
+			}
+		}
 
-        function updateMeetingDropdown() {
-            meetingSelect.innerHTML = '<option value="">-- Select Meeting --</option>';
-            meetings.forEach(meeting => {
-                const option = `<option value="${meeting.date}">${meeting.date}</option>`;
-                meetingSelect.innerHTML += option;
-            });
-        }
+		function showSection(sectionId) {
+			document.getElementById('add-section').classList.add('hidden');
+			document.getElementById('view-section').classList.add('hidden');
+			document.getElementById(sectionId).classList.remove('hidden');
+		}
 
-        function confirmRemoveMember(index) {
-            if (confirm('Are you sure you want to remove this member?')) {
-                members.splice(index, 1);
-                localStorage.setItem('members', JSON.stringify(members));
-                renderMembers();
-                updateMemberDropdowns();
-                alert('Member removed successfully!');
-            }
-        }
-
-        function confirmRemoveMeeting(index) {
-            if (confirm('Are you sure you want to remove this meeting?')) {
-                meetings.splice(index, 1);
-                localStorage.setItem('meetings', JSON.stringify(meetings));
-                renderMeetings();
-                updateMeetingDropdown();
-                alert('Meeting removed successfully!');
-            }
-        }
-
-        function showSection(sectionId) {
-            document.getElementById('add-section').classList.add('hidden');
-            document.getElementById('view-section').classList.add('hidden');
-            document.getElementById(sectionId).classList.remove('hidden');
-        }
-
-        renderMembers();
-        renderMeetings();
-        updateMemberDropdowns();
-        updateMeetingDropdown();
-    </script>
+		// Fetch data on page load
+		fetchData();
+	</script>
 </body>
 </html>
