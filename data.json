@@ -1,134 +1,616 @@
-[
+"members": [
+
+	{"name": "Jonathan Ancrum",
+    "grade": "12"
+  },
+  {
+    "name": "Evie Anderson",
+    "grade": "12"
+  },
+  {
+    "name": "Peyton Ayala",
+    "grade": "11"
+  },
+  {
+    "name": "Aidan Aylward",
+    "grade": "11"
+  },
+  {
+    "name": "Wyatt Blasczienski",
+    "grade": "11"
+  },
+  {
+    "name": "Teddy Brown",
+    "grade": "11"
+  },
+  {
+    "name": "Santiago Charry-Marchan",
+    "grade": "12"
+  },
+  {
+    "name": "Owen Chen",
+    "grade": "12"
+  },
+  {
+    "name": "Lily Congleton",
+    "grade": "11"
+  },
+  {
+    "name": "Serena Coulton",
+    "grade": "12"
+  },
+  {
+    "name": "Hannah Dean",
+    "grade": "12"
+  },
+  {
+    "name": "Milyn Grilliot",
+    "grade": "10"
+  },
+  {
+    "name": "Nathaniel Harvey",
+    "grade": "11"
+  },
+  {
+    "name": "Isaac Hilderbrand",
+    "grade": "11"
+  },
+  {
+    "name": "Emilie Holmes",
+    "grade": "12"
+  },
+  {
+    "name": "Evan Kenny",
+    "grade": "12"
+  },
+  {
+    "name": "Xander Kurthy",
+    "grade": "11"
+  },
+  {
+    "name": "Patrick Lucaric",
+    "grade": "11"
+  },
+  {
+    "name": "Kyle Mantz",
+    "grade": "9"
+  },
+  {
+    "name": "Amarius Miles",
+    "grade": "11"
+  },
+  {
+    "name": "Justin Moreno",
+    "grade": "12"
+  },
+  {
+    "name": "Jaykumar Patel",
+    "grade": "12"
+  },
+  {
+    "name": "Roper Raglan",
+    "grade": "11"
+  },
+  {
+    "name": "Christopher Rivera",
+    "grade": "12"
+  },
+  {
+    "name": "Nicholas Rivera",
+    "grade": "12"
+  },
+  {
+    "name": "Zachary Santos",
+    "grade": "10"
+  },
+  {
+    "name": "Grayson Stewart",
+    "grade": "11"
+  },
+  {
+    "name": "Carson VanDeursen",
+    "grade": "12"
+  },
+  {
+    "name": "Chris Watkins",
+    "grade": "11"
+  },
+  {
+    "name": "Jason Wutzler",
+    "grade": "11"
+  },
+  {
+    "name": "Trace Wynn",
+    "grade": "11"
+  },
+  {
+    "name": "Matthew Irvin",
+    "grade": "10"
+  },
+  {
+    "name": "Andrew McCallum",
+    "grade": "9"
+  }
+],
+
+"meetings": [
     {
-        "name": "Jonathan Ancrum",
-        "grade": "12"
+        "date": "December 5, 2024",
+        "matches": []
     },
     {
-        "name": "Evie Anderson",
-        "grade": "12"
+        "date": "December 11, 2024",
+        "matches": [
+            {
+                "whitePlayer": "Chris Watkins",
+                "blackPlayer": "Trace Wynn",
+                "winner": "Trace Wynn",
+                "notes": ""
+            },
+            {
+                "whitePlayer": "Xander Kurthy",
+                "blackPlayer": "Carson VanDeursen",
+                "winner": "Xander Kurthy",
+                "notes": ""
+            },
+            {
+                "whitePlayer": "Aidan Aylward",
+                "blackPlayer": "Isaac Hilderbrand",
+                "winner": "Isaac Hilderbrand",
+                "notes": ""
+            },
+            {
+                "whitePlayer": "Jason Wutzler",
+                "blackPlayer": "Teddy Brown",
+                "winner": "Jason Wutzler",
+                "notes": ""
+            },
+            {
+                "whitePlayer": "Chris Watkins",
+                "blackPlayer": "Teddy Brown",
+                "winner": "Chris Watkins",
+                "notes": ""
+            },
+            {
+                "whitePlayer": "Jaykumar Patel",
+                "blackPlayer": "Owen Chen",
+                "winner": "Jaykumar Patel",
+                "notes": ""
+            },
+            {
+                "whitePlayer": "Jaykumar Patel",
+                "blackPlayer": "Justin Moreno",
+                "winner": "Jaykumar Patel",
+                "notes": ""
+            },
+            {
+                "whitePlayer": "Lily Congleton",
+                "blackPlayer": "Hannah Dean",
+                "winner": "Lily Congleton",
+                "notes": "Won 3 times."
+            },
+            {
+                "whitePlayer": "Jason Wutzler",
+                "blackPlayer": "Aidan Aylward",
+                "winner": "Jason Wutzler",
+                "notes": ""
+            },
+            {
+                "whitePlayer": "Carson VanDeursen",
+                "blackPlayer": "Owen Chen",
+                "winner": "Carson VanDeursen",
+                "notes": ""
+            },
+            {
+                "whitePlayer": "Xander Kurthy",
+                "blackPlayer": "Trace Wynn",
+                "winner": "Trace Wynn",
+                "notes": ""
+            },
+            {
+                "whitePlayer": "Wyatt Blasczienski",
+                "blackPlayer": "Amarius Miles",
+                "winner": "Wyatt Blasczienski",
+                "notes": ""
+            },
+            {
+                "whitePlayer": "Justin Moreno",
+                "blackPlayer": "Aidan Aylward",
+                "winner": "Draw",
+                "notes": ""
+            },
+            {
+                "whitePlayer": "Jason Wutzler",
+                "blackPlayer": "Wyatt Blasczienski",
+                "winner": "Jason Wutzler",
+                "notes": ""
+            },
+            {
+                "whitePlayer": "Xander Kurthy",
+                "blackPlayer": "Amarius Miles",
+                "winner": "Draw",
+                "notes": ""
+            },
+            {
+                "whitePlayer": "Owen Chen",
+                "blackPlayer": "Jason Wutzler",
+                "winner": "Jason Wutzler",
+                "notes": ""
+            }
+        ]
     },
     {
-        "name": "Peyton Ayala",
-        "grade": "11"
+        "date": "December 18, 2024",
+        "matches": [
+            {
+                "whitePlayer": "Jaykumar Patel",
+                "blackPlayer": "Aidan Aylward",
+                "winner": "Jaykumar Patel",
+                "notes": ""
+            },
+            {
+                "whitePlayer": "Patrick Lucaric",
+                "blackPlayer": "Nathaniel Harvey",
+                "winner": "Patrick Lucaric",
+                "notes": ""
+            },
+            {
+                "whitePlayer": "Christopher Rivera",
+                "blackPlayer": "Isaac Hilderbrand",
+                "winner": "Isaac Hilderbrand",
+                "notes": ""
+            },
+            {
+                "whitePlayer": "Owen Chen",
+                "blackPlayer": "Carson VanDeursen",
+                "winner": "Carson VanDeursen",
+                "notes": ""
+            },
+            {
+                "whitePlayer": "Jonathan Ancrum",
+                "blackPlayer": "Justin Moreno",
+                "winner": "Justin Moreno",
+                "notes": ""
+            },
+            {
+                "whitePlayer": "Xander Kurthy",
+                "blackPlayer": "Trace Wynn",
+                "winner": "Trace Wynn",
+                "notes": ""
+            },
+            {
+                "whitePlayer": "Serena Coulton",
+                "blackPlayer": "Nicholas Rivera",
+                "winner": "Serena Coulton",
+                "notes": ""
+            },
+            {
+                "whitePlayer": "Nathaniel Harvey",
+                "blackPlayer": "Carson VanDeursen",
+                "winner": "Carson VanDeursen",
+                "notes": ""
+            },
+            {
+                "whitePlayer": "Patrick Lucaric",
+                "blackPlayer": "Aidan Aylward",
+                "winner": "Patrick Lucaric",
+                "notes": ""
+            },
+            {
+                "whitePlayer": "Xander Kurthy",
+                "blackPlayer": "Trace Wynn",
+                "winner": "Xander Kurthy",
+                "notes": ""
+            },
+            {
+                "whitePlayer": "Carson VanDeursen",
+                "blackPlayer": "Isaac Hilderbrand",
+                "winner": "Isaac Hilderbrand",
+                "notes": ""
+            },
+            {
+                "whitePlayer": "Patrick Lucaric",
+                "blackPlayer": "Justin Moreno",
+                "winner": "Patrick Lucaric",
+                "notes": ""
+            },
+            {
+                "whitePlayer": "Jason Wutzler",
+                "blackPlayer": "Aidan Aylward",
+                "winner": "Jason Wutzler",
+                "notes": ""
+            }
+        ]
     },
     {
-        "name": "Aidan Aylward",
-        "grade": "11"
+        "date": "January 8, 2025",
+        "matches": [
+            {
+                "whitePlayer": "Teddy Brown",
+                "blackPlayer": "Trace Wynn",
+                "winner": "Draw",
+                "notes": ""
+            },
+            {
+                "whitePlayer": "Jaykumar Patel",
+                "blackPlayer": "Owen Chen",
+                "winner": "Jaykumar Patel",
+                "notes": ""
+            },
+            {
+                "whitePlayer": "Santiago Charry-Marchan",
+                "blackPlayer": "Justin Moreno",
+                "winner": "Santiago Charry-Marchan",
+                "notes": ""
+            },
+            {
+                "whitePlayer": "Christopher Rivera",
+                "blackPlayer": "Patrick Lucaric",
+                "winner": "Christopher Rivera",
+                "notes": ""
+            },
+            {
+                "whitePlayer": "Serena Coulton",
+                "blackPlayer": "Nicholas Rivera",
+                "winner": "Nicholas Rivera",
+                "notes": ""
+            },
+            {
+                "whitePlayer": "Lily Congleton",
+                "blackPlayer": "Isaac Hilderbrand",
+                "winner": "Ongoing",
+                "notes": "30 minutes"
+            },
+            {
+                "whitePlayer": "Wyatt Blasczienski",
+                "blackPlayer": "Aidan Aylward",
+                "winner": "Wyatt Blasczienski",
+                "notes": ""
+            },
+            {
+                "whitePlayer": "Jason Wutzler",
+                "blackPlayer": "Nathaniel Harvey",
+                "winner": "Jason Wutzler",
+                "notes": ""
+            },
+            {
+                "whitePlayer": "Carson VanDeursen",
+                "blackPlayer": "Jason Wutzler",
+                "winner": "Jason Wutzler",
+                "notes": ""
+            },
+            {
+                "whitePlayer": "Justin Moreno",
+                "blackPlayer": "Santiago Charry-Marchan",
+                "winner": "Santiago Charry-Marchan",
+                "notes": ""
+            },
+            {
+                "whitePlayer": "Jaykumar Patel",
+                "blackPlayer": "Patrick Lucaric",
+                "winner": "Jaykumar Patel",
+                "notes": ""
+            }
+        ]
     },
     {
-        "name": "Wyatt Blasczienski",
-        "grade": "11"
+        "date": "January 15, 2025",
+        "matches": [
+            {
+                "whitePlayer": "Roper Raglan",
+                "blackPlayer": "Zachary Santos",
+                "winner": "Roper Raglan",
+                "notes": ""
+            },
+            {
+                "whitePlayer": "Wyatt Blasczienski",
+                "blackPlayer": "Kyle Mantz",
+                "winner": "Wyatt Blasczienski",
+                "notes": ""
+            },
+            {
+                "whitePlayer": "Teddy Brown",
+                "blackPlayer": "Trace Wynn",
+                "winner": "Draw",
+                "notes": ""
+            },
+            {
+                "whitePlayer": "Xander Kurthy",
+                "blackPlayer": "Chris Watkins",
+                "winner": "Xander Kurthy",
+                "notes": ""
+            },
+            {
+                "whitePlayer": "Jason Wutzler",
+                "blackPlayer": "Aidan Aylward",
+                "winner": "Jason Wutzler",
+                "notes": ""
+            },
+            {
+                "whitePlayer": "Patrick Lucaric",
+                "blackPlayer": "Santiago Charry-Marchan",
+                "winner": "Patrick Lucaric",
+                "notes": ""
+            },
+            {
+                "whitePlayer": "Nicholas Rivera",
+                "blackPlayer": "Serena Coulton",
+                "winner": "Nicholas Rivera",
+                "notes": ""
+            },
+            {
+                "whitePlayer": "Jaykumar Patel",
+                "blackPlayer": "Isaac Hilderbrand",
+                "winner": "Jaykumar Patel",
+                "notes": ""
+            },
+            {
+                "whitePlayer": "Roper Raglan",
+                "blackPlayer": "Zachary Santos",
+                "winner": "Roper Raglan",
+                "notes": ""
+            },
+            {
+                "whitePlayer": "Roper Raglan",
+                "blackPlayer": "Kyle Mantz",
+                "winner": "Kyle Mantz",
+                "notes": ""
+            },
+            {
+                "whitePlayer": "Zachary Santos",
+                "blackPlayer": "Jason Wutzler",
+                "winner": "Jason Wutzler",
+                "notes": ""
+            },
+            {
+                "whitePlayer": "Aidan Aylward",
+                "blackPlayer": "Nathaniel Harvey",
+                "winner": "Aidan Aylward",
+                "notes": ""
+            },
+            {
+                "whitePlayer": "Chris Watkins",
+                "blackPlayer": "Xander Kurthy",
+                "winner": "Chris Watkins",
+                "notes": ""
+            },
+            {
+                "whitePlayer": "Teddy Brown",
+                "blackPlayer": "Trace Wynn",
+                "winner": "Teddy Brown",
+                "notes": ""
+            },
+            {
+                "whitePlayer": "Teddy Brown",
+                "blackPlayer": "Trace Wynn",
+                "winner": "Teddy Brown",
+                "notes": ""
+            },
+            {
+                "whitePlayer": "Lily Congleton",
+                "blackPlayer": "Isaac Hilderbrand",
+                "winner": "Ongoing",
+                "notes": "90 minutes"
+            }
+        ]
     },
     {
-        "name": "Teddy Brown",
-        "grade": "11"
-    },
-    {
-        "name": "Santiago Charry-Marchan",
-        "grade": "12"
-    },
-    {
-        "name": "Owen Chen",
-        "grade": "12"
-    },
-    {
-        "name": "Lily Congleton",
-        "grade": "11"
-    },
-    {
-        "name": "Serena Coulton",
-        "grade": "12"
-    },
-    {
-        "name": "Hannah Dean",
-        "grade": "12"
-    },
-    {
-        "name": "Milyn Grilliot",
-        "grade": "10"
-    },
-    {
-        "name": "Nathaniel Harvey",
-        "grade": "11"
-    },
-    {
-        "name": "Isaac Hilderbrand",
-        "grade": "11"
-    },
-    {
-        "name": "Emilie Holmes",
-        "grade": "12"
-    },
-    {
-        "name": "Evan Kenny",
-        "grade": "12"
-    },
-    {
-        "name": "Xander Kurthy",
-        "grade": "11"
-    },
-    {
-        "name": "Patrick Lucaric",
-        "grade": "11"
-    },
-    {
-        "name": "Kyle Mantz",
-        "grade": "9"
-    },
-    {
-        "name": "Amarius Miles",
-        "grade": "11"
-    },
-    {
-        "name": "Justin Moreno",
-        "grade": "12"
-    },
-    {
-        "name": "Jaykumar Patel",
-        "grade": "12"
-    },
-    {
-        "name": "Roper Raglan",
-        "grade": "11"
-    },
-    {
-        "name": "Christopher Rivera",
-        "grade": "12"
-    },
-    {
-        "name": "Nicholas Rivera",
-        "grade": "12"
-    },
-    {
-        "name": "Zachary Santos",
-        "grade": "10"
-    },
-    {
-        "name": "Grayson Stewart",
-        "grade": "11"
-    },
-    {
-        "name": "Carson VanDeursen",
-        "grade": "12"
-    },
-    {
-        "name": "Chris Watkins",
-        "grade": "11"
-    },
-    {
-        "name": "Jason Wutzler",
-        "grade": "11"
-    },
-    {
-        "name": "Trace Wynn",
-        "grade": "11"
-    },
-    {
-        "name": "Matthew Irvin",
-        "grade": "10"
-    },
-    {
-        "name": "Andrew McCallum",
-        "grade": "9"
+        "date": "January 22, 2025",
+        "matches": [
+            {
+                "whitePlayer": "Roper Raglan",
+                "blackPlayer": "Kyle Mantz",
+                "winner": "Roper Raglan",
+                "notes": ""
+            },
+            {
+                "whitePlayer": "Matthew Irvin",
+                "blackPlayer": "Grayson Stewart",
+                "winner": "Draw",
+                "notes": ""
+            },
+            {
+                "whitePlayer": "Aidan Aylward",
+                "blackPlayer": "Justin Moreno",
+                "winner": "Aidan Aylward",
+                "notes": ""
+            },
+            {
+                "whitePlayer": "Carson VanDeursen",
+                "blackPlayer": "Patrick Lucaric",
+                "winner": "Carson VanDeursen",
+                "notes": ""
+            },
+            {
+                "whitePlayer": "Roper Raglan",
+                "blackPlayer": "Wyatt Blasczienski",
+                "winner": "Roper Raglan",
+                "notes": ""
+            },
+            {
+                "whitePlayer": "Matthew Irvin",
+                "blackPlayer": "Grayson Stewart",
+                "winner": "Matthew Irvin",
+                "notes": ""
+            },
+            {
+                "whitePlayer": "Evan Kenny",
+                "blackPlayer": "Teddy Brown",
+                "winner": "Draw",
+                "notes": ""
+            },
+            {
+                "whitePlayer": "Patrick Lucaric",
+                "blackPlayer": "Justin Moreno",
+                "winner": "Patrick Lucaric",
+                "notes": ""
+            },
+            {
+                "whitePlayer": "Justin Moreno",
+                "blackPlayer": "Justin Moreno",
+                "winner": "Justin Moreno",
+                "notes": ""
+            },
+            {
+                "whitePlayer": "Kyle Mantz",
+                "blackPlayer": "Wyatt Blasczienski",
+                "winner": "Kyle Mantz",
+                "notes": ""
+            },
+            {
+                "whitePlayer": "Chris Watkins",
+                "blackPlayer": "Trace Wynn",
+                "winner": "Chris Watkins",
+                "notes": ""
+            },
+            {
+                "whitePlayer": "Carson VanDeursen",
+                "blackPlayer": "Roper Raglan",
+                "winner": "Roper Raglan",
+                "notes": ""
+            },
+            {
+                "whitePlayer": "Jonathan Ancrum",
+                "blackPlayer": "Patrick Lucaric",
+                "winner": "Patrick Lucaric",
+                "notes": ""
+            },
+            {
+                "whitePlayer": "Aidan Aylward",
+                "blackPlayer": "Nathaniel Harvey",
+                "winner": "Nathaniel Harvey",
+                "notes": ""
+            },
+            {
+                "whitePlayer": "Santiago Charry-Marchan",
+                "blackPlayer": "Serena Coulton",
+                "winner": "Santiago Charry-Marchan",
+                "notes": ""
+            },
+            {
+                "whitePlayer": "Evan Kenny",
+                "blackPlayer": "Teddy Brown",
+                "winner": "Evan Kenny",
+                "notes": ""
+            },
+            {
+                "whitePlayer": "Xander Kurthy",
+                "blackPlayer": "Amarius Miles",
+                "winner": "Draw",
+                "notes": ""
+            },
+            {
+                "whitePlayer": "Wyatt Blasczienski",
+                "blackPlayer": "Kyle Mantz",
+                "winner": "Wyatt Blasczienski",
+                "notes": ""
+            },
+            {
+                "whitePlayer": "Lily Congleton",
+                "blackPlayer": "Isaac Hilderbrand",
+                "winner": "Ongoing",
+                "notes": "150 minutes"
+            }
+        ]
     }
 ]
