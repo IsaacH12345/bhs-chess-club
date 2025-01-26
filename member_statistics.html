@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Member Statistics</title>
+    <title>BHS Chess Club Member Stats.</title>
+	<link rel='shortcut icon' type='image/x-icon' href='icon.png'>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -139,7 +140,7 @@
 </head>
 <body>
     <div class="stats-container">
-        <h1>Member Statistics</h1>
+        <h1>BHS Chess Club Member Statistics</h1>
 
         <div class="search-bar">
             <input type="text" id="search-input" placeholder="Search for a member by name...">
@@ -168,14 +169,14 @@
     </div>
 
     <div class="tracker-button-container">
-        <a href="index.html" class="tracker-button">Go to Tracker</a>
+        <a href="index.html" class="tracker-button">Go to Match Tracker</a>
     </div>
 
 	<script>
 		const dataJsonUrl = 'https://www.bhschess.com/data.json';
 		let members = [];
 		let meetings = [];
-		const itemsPerPage = 13; // Names per page
+		const itemsPerPage = 15; // Names per page
 		let currentPage = 1;
 		let filteredStats = [];
 

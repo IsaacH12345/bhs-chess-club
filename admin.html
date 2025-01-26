@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #333;
+            color: white;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        .login-container {
+            margin: 100px auto;
+            max-width: 400px;
+            background-color: #444;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        input {
+            width: 90%;
+            padding: 10px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 5px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #00d4ff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #00b3cc;
+        }
+
+        .error {
+            color: red;
+            margin-top: 10px;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h1>Admin Login</h1>
+        <form id="login-form">
+            <input type="password" id="password" placeholder="Enter Password" required>
+            <button type="submit">Login</button>
+            <p class="error" id="error-message" style="display: none;">Incorrect password. Try again.</p>
+        </form>
+    </div>
+
+    <script>
+        const loginForm = document.getElementById('login-form');
+        const errorMessage = document.getElementById('error-message');
+
+        // Make an actual password here eventually (totally radical and secure way to protect the admin dashboard)
+        const correctPassword = 'admin123';
+
+        loginForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            const enteredPassword = document.getElementById('password').value;
+
+            if (enteredPassword === correctPassword) {
+                window.location.href = 'admin_dashboard.html'; // html file name. If ever changed, make sure chagne this too. Roblos.
+            } else {
+                errorMessage.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>
